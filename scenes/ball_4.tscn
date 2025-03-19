@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cdiwfqa8c078e"]
 
-[ext_resource type="Script" path="res://scripts/ball_4.gd" id="1_hu0xr"]
+[ext_resource type="Script" path="res://scripts/ball.gd" id="1_hsq1q"]
 [ext_resource type="Texture2D" uid="uid://b7c1r60g3bk2b" path="res://assets/green-01.png" id="2_huf4x"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a1w5e"]
@@ -9,7 +9,7 @@ radius = 25.0
 [node name="ball4" type="RigidBody2D" groups=["Ball 4"]]
 max_contacts_reported = 100
 contact_monitor = true
-script = ExtResource("1_hu0xr")
+script = ExtResource("1_hsq1q")
 ball_type = "Ball 4"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

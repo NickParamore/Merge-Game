@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfopql5whm5dq"]
+[gd_scene load_steps=4 format=3 uid="uid://cyo0abpt1yehw"]
 
-[ext_resource type="Script" path="res://scripts/ball_2.gd" id="1_l5n2j"]
+[ext_resource type="Script" path="res://scripts/ball.gd" id="1_s5faj"]
 [ext_resource type="Texture2D" uid="uid://cgr5b5tkl4er" path="res://assets/orange-01.png" id="2_100w6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_su0sd"]
@@ -9,7 +9,7 @@ radius = 15.0
 [node name="ball2" type="RigidBody2D" groups=["Ball 2"]]
 max_contacts_reported = 100
 contact_monitor = true
-script = ExtResource("1_l5n2j")
+script = ExtResource("1_s5faj")
 ball_type = "Ball 2"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
