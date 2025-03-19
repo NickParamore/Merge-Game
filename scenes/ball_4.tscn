@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cdiwfqa8c078e"]
 
 [ext_resource type="Script" path="res://scripts/ball.gd" id="1_hsq1q"]
-[ext_resource type="Texture2D" uid="uid://b7c1r60g3bk2b" path="res://assets/green-01.png" id="2_huf4x"]
+[ext_resource type="Texture2D" uid="uid://b7c1r60g3bk2b" path="res://assets/ball_4.png" id="2_m511m"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a1w5e"]
 radius = 25.0
@@ -17,6 +17,6 @@ shape = SubResource("CircleShape2D_a1w5e")
 
 [node name="Green-01" type="Sprite2D" parent="."]
 scale = Vector2(0.122302, 0.122302)
-texture = ExtResource("2_huf4x")
+texture = ExtResource("2_m511m")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

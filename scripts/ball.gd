@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-# Define the merge hierarchy (Ball 1 -> Ball 2, Ball 2 -> Ball 3, ..., Ball 7 -> Ball 8)
+# Define the merge hierarchy (Ball 1 -> Ball 2, ..., Ball 7 -> Ball 8)
 var ball_merge_map = {
 	"Ball 1": "Ball 2",
 	"Ball 2": "Ball 3",
@@ -19,6 +19,16 @@ var ball_scenes = {
 	"Ball 5": load("res://scenes/ball_5.tscn"),
 	"Ball 6": load("res://scenes/ball_6.tscn"),
 	"Ball 7": load("res://scenes/ball_7.tscn"), # Final form, doesn't merge
+}
+
+# Define points per merge level
+var score_map = {
+	"Ball 1": 10,
+	"Ball 2": 20,
+	"Ball 3": 40,
+	"Ball 4": 80,
+	"Ball 5": 160,
+	"Ball 6": 320,
 }
 
 @export var ball_type: String  # Set in the Inspector
@@ -40,7 +50,7 @@ func _on_body_entered(body) -> void:
 
 			var new_position = (position + body.position) / 2  # Midpoint for new ball
 
-			# Defer the creation of the new ball
+			# Defer the creation of the new ball and scoring update
 			call_deferred("spawn_new_ball", next_ball_type, new_position, body)
 
 func spawn_new_ball(next_ball_type, new_position, body):
@@ -48,6 +58,12 @@ func spawn_new_ball(next_ball_type, new_position, body):
 	new_ball.position = new_position
 	new_ball.ball_type = next_ball_type
 	get_parent().add_child(new_ball)
+
+	# Update score
+	if ball_type in score_map:
+		var main_script = get_tree().get_root().get_node("Node2D")  # Adjust if needed
+		if main_script.has_method("add_score"):
+			main_script.add_score(score_map[ball_type])
 
 	# Defer removal of merging balls
 	body.call_deferred("queue_free")
