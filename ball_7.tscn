@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bataic35wij8r"]
+
+[ext_resource type="Script" path="res://ball7.gd" id="1_er8gt"]
+[ext_resource type="Texture2D" uid="uid://d1gnqp60orqcw" path="res://assets/pink-01.png" id="2_gryk8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oo5xr"]
+radius = 40.0
+
+[node name="ball7" type="RigidBody2D" groups=["Ball 7"]]
+max_contacts_reported = 100
+contact_monitor = true
+script = ExtResource("1_er8gt")
+ball_type = "Ball 7"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oo5xr")
+
+[node name="Pink-01" type="Sprite2D" parent="."]
+position = Vector2(0.117187, -0.117187)
+scale = Vector2(0.196081, 0.196081)
+texture = ExtResource("2_gryk8")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

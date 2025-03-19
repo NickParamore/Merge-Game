@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfj577ua1or27"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_qy11b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ca67"]
+size = Vector2(35, 517)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_n5jfm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ia48"]
+size = Vector2(35, 306)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_qy11b")
+
+[node name="Wall" type="StaticBody2D" parent="."]
+position = Vector2(81, 348)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+position = Vector2(315, -5)
+shape = SubResource("RectangleShape2D_1ca67")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall/CollisionShape2D"]
+position = Vector2(1.23978e-05, 1.54972e-05)
+scale = Vector2(35, 517)
+texture = SubResource("CanvasTexture_n5jfm")
+
+[node name="Wall2" type="StaticBody2D" parent="."]
+position = Vector2(-43, 317)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
+position = Vector2(779, 26)
+shape = SubResource("RectangleShape2D_1ca67")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall2/CollisionShape2D"]
+position = Vector2(1.23978e-05, 1.54972e-05)
+scale = Vector2(35, 517)
+texture = SubResource("CanvasTexture_n5jfm")
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(-43, 317)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(609, 267)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_5ia48")
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor/CollisionShape2D"]
+position = Vector2(1.23978e-05, -0.0169629)
+scale = Vector2(35, 306.012)
+texture = SubResource("CanvasTexture_n5jfm")

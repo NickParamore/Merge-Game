@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dfopql5whm5dq"]
+
+[ext_resource type="Script" path="res://ball_2.gd" id="1_gr13r"]
+[ext_resource type="Texture2D" uid="uid://cgr5b5tkl4er" path="res://assets/orange-01.png" id="2_4yt1x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_su0sd"]
+radius = 15.0
+
+[node name="ball2" type="RigidBody2D" groups=["Ball 2"]]
+max_contacts_reported = 100
+contact_monitor = true
+script = ExtResource("1_gr13r")
+ball_type = "Ball 2"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_su0sd")
+
+[node name="Orange-01" type="Sprite2D" parent="."]
+position = Vector2(0, -2.98023e-08)
+scale = Vector2(0.0743405, 0.0743405)
+texture = ExtResource("2_4yt1x")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
