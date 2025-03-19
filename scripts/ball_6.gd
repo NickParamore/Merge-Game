@@ -12,13 +12,13 @@ var ball_merge_map = {
 
 # Preload all ball scenes
 var ball_scenes = {
-	"Ball 1": preload("res://ball.tscn"),  
-	"Ball 2": preload("res://ball_2.tscn"),
-	"Ball 3": preload("res://ball_3.tscn"),
-	"Ball 4": preload("res://ball_4.tscn"),
-	"Ball 5": preload("res://ball_5.tscn"),
-	"Ball 6": preload("res://ball_6.tscn"),
-	"Ball 7": preload("res://ball_7.tscn"), # Final form, doesn't merge
+	"Ball 1": preload("res://scenes/ball.tscn"),
+	"Ball 2": preload("res://scenes/ball_2.tscn"),
+	"Ball 3": preload("res://scenes/ball_3.tscn"),
+	"Ball 4": preload("res://scenes/ball_4.tscn"),
+	"Ball 5": preload("res://scenes/ball_5.tscn"),
+	"Ball 6": preload("res://scenes/ball_6.tscn"),
+	"Ball 7": preload("res://scenes/ball_7.tscn"), # Final form, doesn't merge
 }
 
 @export var ball_type: String  # Set in the Inspector

@@ -1,12 +1,12 @@
 extends Node2D
 
-var ball = preload("res://ball.tscn")
-var ball2 = preload("res://ball_2.tscn")
-var ball3 = preload("res://ball_3.tscn")
-var ball4 = preload("res://ball_4.tscn")
-var ball5 = preload("res://ball_5.tscn")
-var ball6 = preload("res://ball_6.tscn")
-var ball7 = preload("res://ball_7.tscn")
+var ball = preload("res://scenes/ball.tscn")
+var ball2 = preload("res://scenes/ball_2.tscn")
+var ball3 = preload("res://scenes/ball_3.tscn")
+var ball4 = preload("res://scenes/ball_4.tscn")
+var ball5 = preload("res://scenes/ball_5.tscn")
+var ball6 = preload("res://scenes/ball_6.tscn")
+var ball7 = preload("res://scenes/ball_7.tscn")
 var rng = RandomNumberGenerator.new()
 
 func _physics_process(delta: float) -> void:
