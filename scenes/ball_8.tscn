@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://vpjuqy40y3po"]
+
+[ext_resource type="Script" path="res://scripts/ball.gd" id="1_w7u4y"]
+[ext_resource type="Texture2D" uid="uid://be4g4b0h155b6" path="res://assets/ball_8.png" id="2_8rf4p"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g65vl"]
+radius = 45.0
+
+[node name="ball8" type="RigidBody2D" groups=["Ball 8"]]
+max_contacts_reported = 100
+contact_monitor = true
+script = ExtResource("1_w7u4y")
+ball_type = "Ball 8"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_g65vl")
+
+[node name="Ball8" type="Sprite2D" parent="."]
+position = Vector2(0.0156299, -0.0156298)
+scale = Vector2(0.220549, 0.220549)
+texture = ExtResource("2_8rf4p")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

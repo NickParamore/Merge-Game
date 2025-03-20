@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkxdvis1rpc83"]
+
+[ext_resource type="Script" path="res://scripts/ball.gd" id="1_64sgo"]
+[ext_resource type="Texture2D" uid="uid://fctah66rvrrt" path="res://assets/ball_9.png" id="2_pofpt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5tso4"]
+radius = 50.0
+
+[node name="ball9" type="RigidBody2D" groups=["Ball 9"]]
+max_contacts_reported = 100
+contact_monitor = true
+script = ExtResource("1_64sgo")
+ball_type = "Ball 9"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5tso4")
+
+[node name="Ball9" type="Sprite2D" parent="."]
+scale = Vector2(0.24393, 0.24393)
+texture = ExtResource("2_pofpt")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

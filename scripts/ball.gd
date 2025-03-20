@@ -8,6 +8,10 @@ var ball_merge_map = {
 	"Ball 4": "Ball 5",
 	"Ball 5": "Ball 6",
 	"Ball 6": "Ball 7",
+	"Ball 7": "Ball 8",
+	"Ball 8": "Ball 9",
+	"Ball 9": "Ball 10",
+	"Ball 10": "Ball 11",
 }
 
 # Preload all ball scenes
@@ -19,6 +23,10 @@ var ball_scenes = {
 	"Ball 5": load("res://scenes/ball_5.tscn"),
 	"Ball 6": load("res://scenes/ball_6.tscn"),
 	"Ball 7": load("res://scenes/ball_7.tscn"), # Final form, doesn't merge
+	"Ball 8": load("res://scenes/ball_8.tscn"), # Final form, doesn't merge
+	"Ball 9": load("res://scenes/ball_9.tscn"), # Final form, doesn't merge
+	"Ball 10": load("res://scenes/ball_10.tscn"), # Final form, doesn't merge
+	"Ball 11": load("res://scenes/ball_11.tscn"), # Final form, doesn't merge
 }
 
 # Define points per merge level
@@ -29,6 +37,11 @@ var score_map = {
 	"Ball 4": 80,
 	"Ball 5": 160,
 	"Ball 6": 320,
+	"Ball 7": 640,
+	"Ball 8": 1280,
+	"Ball 9": 2560,
+	"Ball 10": 5120,
+	"Ball 11": 10240,
 }
 
 @export var ball_type: String  # Set in the Inspector
