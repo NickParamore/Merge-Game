@@ -14,7 +14,7 @@ var ball_merge_map = {
 	"Ball 10": "Ball 11",
 }
 
-# Preload all ball scenes
+# load all ball scenes
 var ball_scenes = {
 	"Ball 1": load("res://scenes/ball.tscn"),
 	"Ball 2": load("res://scenes/ball_2.tscn"),
@@ -22,10 +22,10 @@ var ball_scenes = {
 	"Ball 4": load("res://scenes/ball_4.tscn"),
 	"Ball 5": load("res://scenes/ball_5.tscn"),
 	"Ball 6": load("res://scenes/ball_6.tscn"),
-	"Ball 7": load("res://scenes/ball_7.tscn"), # Final form, doesn't merge
-	"Ball 8": load("res://scenes/ball_8.tscn"), # Final form, doesn't merge
-	"Ball 9": load("res://scenes/ball_9.tscn"), # Final form, doesn't merge
-	"Ball 10": load("res://scenes/ball_10.tscn"), # Final form, doesn't merge
+	"Ball 7": load("res://scenes/ball_7.tscn"),
+	"Ball 8": load("res://scenes/ball_8.tscn"),
+	"Ball 9": load("res://scenes/ball_9.tscn"),
+	"Ball 10": load("res://scenes/ball_10.tscn"),
 	"Ball 11": load("res://scenes/ball_11.tscn"), # Final form, doesn't merge
 }
 
