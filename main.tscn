@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfj577ua1or27"]
+[gd_scene load_steps=10 format=3 uid="uid://cfj577ua1or27"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_qy11b"]
+[ext_resource type="Script" path="res://Area2D.gd" id="2_1n4sn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ca67"]
 size = Vector2(35, 517)
@@ -11,6 +12,13 @@ size = Vector2(35, 517)
 size = Vector2(35, 306)
 
 [sub_resource type="LabelSettings" id="LabelSettings_iawhg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xeyjn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i44ma"]
+size = Vector2(304, 7)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_5cp4r"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_qy11b")
@@ -61,3 +69,23 @@ offset_top = 67.0
 offset_right = 292.0
 offset_bottom = 90.0
 label_settings = SubResource("LabelSettings_iawhg")
+
+[node name="BestScore" type="Label" parent="."]
+offset_left = 148.0
+offset_top = 140.0
+offset_right = 280.0
+offset_bottom = 163.0
+label_settings = SubResource("LabelSettings_xeyjn")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(565, 137)
+script = ExtResource("2_1n4sn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1, -35)
+shape = SubResource("RectangleShape2D_i44ma")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+position = Vector2(0.99999, -35)
+scale = Vector2(304, 7.00001)
+texture = SubResource("CanvasTexture_5cp4r")
