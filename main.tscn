@@ -16,7 +16,7 @@ size = Vector2(35, 306)
 [sub_resource type="LabelSettings" id="LabelSettings_xeyjn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i44ma"]
-size = Vector2(304, 7)
+size = Vector2(306, 7)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_5cp4r"]
 
@@ -71,10 +71,10 @@ offset_bottom = 90.0
 label_settings = SubResource("LabelSettings_iawhg")
 
 [node name="BestScore" type="Label" parent="."]
-offset_left = 148.0
-offset_top = 140.0
-offset_right = 280.0
-offset_bottom = 163.0
+offset_left = 130.0
+offset_top = 109.0
+offset_right = 294.0
+offset_bottom = 132.0
 label_settings = SubResource("LabelSettings_xeyjn")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -86,6 +86,6 @@ position = Vector2(1, -35)
 shape = SubResource("RectangleShape2D_i44ma")
 
 [node name="Sprite2D" type="Sprite2D" parent="Area2D"]
-position = Vector2(0.99999, -35)
-scale = Vector2(304, 7.00001)
+position = Vector2(0.99998, -35)
+scale = Vector2(306, 7.00001)
 texture = SubResource("CanvasTexture_5cp4r")

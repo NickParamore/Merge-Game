@@ -9,8 +9,12 @@ var ball_data = [
 	{"texture": preload("res://assets/ball_5.png"), "scene": preload("res://scenes/ball_5.tscn")}
 ]
 
-var score = 0  
-@onready var score_label = $Score  
+const SAVEFILE = "user://savefile.save"
+
+var score = 0 
+var best_score = 0
+@onready var score_label = $Score
+@onready var best_score_label = $BestScore
 var rng = RandomNumberGenerator.new()
 var next_ball_index = 0
 
@@ -26,10 +30,28 @@ var spawn_area_right = 700  # Right side of the spawn area (adjust as needed)
 func _ready():
 	generate_next_ball_preview()
 	score_label.text = "Score: 0"
+	load_score()
 	
+func save_score():
+	if best_score > 0:  # Only save if there's a valid score
+		var file = FileAccess.open(SAVEFILE, FileAccess.WRITE)
+		file.store_32(best_score)
+
+func load_score():
+	if FileAccess.file_exists(SAVEFILE):
+		var file = FileAccess.open(SAVEFILE, FileAccess.READ)
+		best_score = file.get_32()
+		best_score_label.text = "Best Score: " + str(best_score)
+
 func add_score(points):
 	score += points
-	score_label.text = "Score: " + str(score)  # Update label text
+	score_label.text = "Score: " + str(score)
+	
+	# Update best score if the new score is higher
+	if score > best_score:
+		best_score = score
+		best_score_label.text = "Best Score: " + str(best_score)
+		save_score()
 
 func _process(delta):
 	var mouse_pos = get_global_mouse_position()
