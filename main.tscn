@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cfj577ua1or27"]
+[gd_scene load_steps=11 format=3 uid="uid://cfj577ua1or27"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_qy11b"]
 [ext_resource type="Script" path="res://Area2D.gd" id="2_1n4sn"]
+[ext_resource type="PackedScene" uid="uid://sx3w211amwn4" path="res://pause_menu.tscn" id="2_r6ejk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ca67"]
 size = Vector2(35, 517)
@@ -22,6 +23,12 @@ size = Vector2(306, 7)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_qy11b")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("2_r6ejk")]
+offset_left = 1.0
+offset_top = 1.0
 
 [node name="Wall" type="StaticBody2D" parent="."]
 position = Vector2(81, 348)
