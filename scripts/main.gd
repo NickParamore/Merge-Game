@@ -54,6 +54,7 @@ func generate_next_ball_preview():
 
 
 func _ready():
+	#Generate the preview ball
 	generate_next_ball_preview()
 	score_label.text = "Score: 0"
 	load_score()
@@ -61,15 +62,20 @@ func _ready():
 	spawn_area.connect("mouse_exited", _on_spawn_area_exited)
 	preview_sprite.hide()  # Hide preview initially
 
-		# Get the spawnable area bounds (adjust these as needed)
+	# Get the spawnable area bounds (adjust these as needed)
 	var spawn_area_rect = spawn_area.get_node("CollisionShape2D").shape.get_rect()
-	spawn_area_left = spawn_area.position.x + spawn_area_rect.position.x
+	spawn_area_left = spawn_area.global_position.x + spawn_area_rect.position.x
 	spawn_area_right = spawn_area_left + spawn_area_rect.size.x
-	
-	# Correctly calculate the leftmost boundary of the spawn area
-	var spawn_area_left = spawn_area.global_position.x - spawn_area.get_node("CollisionShape2D").shape.extents.x
-	# Right boundary remains the same, based on CollisionShape2D's extent
-	var spawn_area_right = spawn_area.global_position.x + spawn_area.get_node("CollisionShape2D").shape.extents.x
+
+	# Calculate the center of the spawnable area
+	var spawn_area_center = (spawn_area_left + spawn_area_right) / 2
+
+	# Set the preview ball to the center of the spawnable area
+	preview_sprite.position = Vector2(spawn_area_center, fixed_spawn_y)
+
+	# Show the preview now
+	preview_sprite.show()
+
 
 func _on_spawn_area_entered():
 	spawn_allowed = true
