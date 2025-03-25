@@ -46,8 +46,13 @@ var score_map = {
 
 @export var ball_type: String  # Set in the Inspector
 var merging = false  # Prevents multiple merges
+signal ball_collided  # Signal for first collision
+var has_collided = false  # Track if collision has already happened
 
 func _on_body_entered(body) -> void:
+	if not has_collided and (body is StaticBody2D or body is RigidBody2D):
+		has_collided = true  # Mark as collided to prevent multiple signals
+		emit_signal("ball_collided")  # Notify main.gd
 	if not (body is RigidBody2D and "ball_type" in body and body.ball_type == ball_type):
 		return  # Ignore collisions with walls or different ball types
 

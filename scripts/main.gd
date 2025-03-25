@@ -19,64 +19,12 @@ var rng = RandomNumberGenerator.new()
 var next_ball_index = 0
 
 @onready var preview_sprite: Sprite2D = $PreviewSprite  # Make sure this exists in your scene
+@onready var spawn_area: Area2D = $ClickableArea  # Reference your Area2D node
+var spawn_area_left: float
+var spawn_area_right: float
 var spawn_allowed = false  # Flag to check if the mouse is in the valid spawn area
 
-# Define the spawn area (adjust based on your box's position)
-var spawn_area_top = 50   # Y position where spawning is allowed (top of the box)
-var spawn_area_bottom = 1000  # Fixed Y position where the ball will be dropped (bottom of the spawnable space)
-var spawn_area_left = 400  # Left side of the spawn area (adjust as needed)
-var spawn_area_right = 700  # Right side of the spawn area (adjust as needed)
-
-func _ready():
-	generate_next_ball_preview()
-	score_label.text = "Score: 0"
-	load_score()
-	
-func save_score():
-	if best_score > 0:  # Only save if there's a valid score
-		var file = FileAccess.open(SAVEFILE, FileAccess.WRITE)
-		file.store_32(best_score)
-
-func load_score():
-	if FileAccess.file_exists(SAVEFILE):
-		var file = FileAccess.open(SAVEFILE, FileAccess.READ)
-		best_score = file.get_32()
-		best_score_label.text = "Best Score: " + str(best_score)
-
-func add_score(points):
-	score += points
-	score_label.text = "Score: " + str(score)
-	
-	# Update best score if the new score is higher
-	if score > best_score:
-		best_score = score
-		best_score_label.text = "Best Score: " + str(best_score)
-		save_score()
-
-func _process(delta):
-	var mouse_pos = get_global_mouse_position()
-
-	# Restrict preview movement to the spawn area (top of the box)
-	if mouse_pos.y >= spawn_area_top and mouse_pos.y <= spawn_area_bottom and mouse_pos.x >= spawn_area_left and mouse_pos.x <= spawn_area_right:
-		spawn_allowed = true
-		preview_sprite.position = Vector2(mouse_pos.x, spawn_area_top)  # Keep at drop height
-		preview_sprite.show()
-	else:
-		spawn_allowed = false
-		preview_sprite.hide()
-
-func _input(event):
-	if event is InputEventMouseButton and event.pressed:
-		if spawn_allowed:
-			spawn_ball(preview_sprite.position)
-
-func spawn_ball(pos: Vector2):
-	var ball_instance = ball_data[next_ball_index]["scene"].instantiate()
-	ball_instance.position = pos
-	add_child(ball_instance)
-
-	# Generate new preview
-	generate_next_ball_preview()
+var fixed_spawn_y = 50  # Custom spawn height
 
 func generate_next_ball_preview():
 	# Pick a random ball from the first 5
@@ -103,3 +51,101 @@ func generate_next_ball_preview():
 			print("⚠️ Warning: Texture not found for preview ball.")
 	else:
 		print("⚠️ Warning: 'PreviewSprite' not found or not a Sprite2D.")
+
+
+func _ready():
+	generate_next_ball_preview()
+	score_label.text = "Score: 0"
+	load_score()
+	spawn_area.connect("mouse_entered", _on_spawn_area_entered)
+	spawn_area.connect("mouse_exited", _on_spawn_area_exited)
+	preview_sprite.hide()  # Hide preview initially
+
+		# Get the spawnable area bounds (adjust these as needed)
+	var spawn_area_rect = spawn_area.get_node("CollisionShape2D").shape.get_rect()
+	spawn_area_left = spawn_area.position.x + spawn_area_rect.position.x
+	spawn_area_right = spawn_area_left + spawn_area_rect.size.x
+	
+	# Correctly calculate the leftmost boundary of the spawn area
+	var spawn_area_left = spawn_area.global_position.x - spawn_area.get_node("CollisionShape2D").shape.extents.x
+	# Right boundary remains the same, based on CollisionShape2D's extent
+	var spawn_area_right = spawn_area.global_position.x + spawn_area.get_node("CollisionShape2D").shape.extents.x
+
+func _on_spawn_area_entered():
+	spawn_allowed = true
+
+func _on_spawn_area_exited():
+	spawn_allowed = false
+	
+func save_score():
+	if best_score > 0:  # Only save if there's a valid score
+		var file = FileAccess.open(SAVEFILE, FileAccess.WRITE)
+		file.store_32(best_score)
+
+func load_score():
+	if FileAccess.file_exists(SAVEFILE):
+		var file = FileAccess.open(SAVEFILE, FileAccess.READ)
+		best_score = file.get_32()
+		best_score_label.text = "Best Score: " + str(best_score)
+
+func add_score(points):
+	score += points
+	score_label.text = "Score: " + str(score)
+	
+	# Update best score if the new score is higher
+	if score > best_score:
+		best_score = score
+		best_score_label.text = "Best Score: " + str(best_score)
+		save_score()
+
+var last_valid_position = Vector2()  # Store the last valid position
+
+func _process(delta):
+	var mouse_pos = get_global_mouse_position()
+
+	if spawn_allowed:
+		
+		# Clamp the x position of the preview ball to stay within the spawnable area
+		var clamped_x = clamp(mouse_pos.x, spawn_area_left, spawn_area_right)
+
+		# Update last known valid position and move the preview
+		last_valid_position = Vector2(clamped_x, fixed_spawn_y)
+		preview_sprite.position = last_valid_position
+		preview_sprite.show()
+	elif last_valid_position != Vector2():  # Ensure it's not (0,0)
+		preview_sprite.position = last_valid_position
+
+
+var ball_spawned = false  # Prevents multiple spawns before collision
+
+func _input(event):
+	if event is InputEventMouseButton and event.pressed:
+		if ball_spawned:
+			return  # Prevent multiple spawns before collision
+
+		var mouse_pos = get_global_mouse_position()
+
+		# Ensure ball always spawns within the defined area
+		if spawn_allowed:
+			spawn_ball(preview_sprite.position)
+		else:
+			var clamped_x = clamp(mouse_pos.x, spawn_area_left, spawn_area_right)
+			var spawn_pos = Vector2(clamped_x, fixed_spawn_y)
+			spawn_ball(spawn_pos)
+
+func spawn_ball(pos: Vector2):
+	ball_spawned = true  # Prevent further spawns until collision
+
+	var ball_instance = ball_data[next_ball_index]["scene"].instantiate()
+	pos.x = clamp(pos.x, spawn_area_left, spawn_area_right)
+	pos.y = fixed_spawn_y  # Keep ball within the spawn area
+
+	ball_instance.position = pos
+	add_child(ball_instance)
+	
+	generate_next_ball_preview()
+	# Connect the collision signal
+	ball_instance.connect("ball_collided", Callable(self, "_on_ball_collided"))
+
+func _on_ball_collided():
+	ball_spawned = false  # Allow spawning again

@@ -1,16 +1,26 @@
-[gd_scene load_steps=11 format=3 uid="uid://cfj577ua1or27"]
+[gd_scene load_steps=15 format=3 uid="uid://cfj577ua1or27"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_qy11b"]
 [ext_resource type="Script" path="res://Area2D.gd" id="2_1n4sn"]
 [ext_resource type="PackedScene" uid="uid://sx3w211amwn4" path="res://pause_menu.tscn" id="2_r6ejk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ca67"]
-size = Vector2(35, 517)
+size = Vector2(35, 419)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_n5jfm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ia48"]
 size = Vector2(35, 306)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_tj2i8"]
+a = Vector2(15.8512, -41.773)
+b = Vector2(16.1488, 41.773)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_lt7j8"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_qk2gr"]
+a = Vector2(-15.8512, -41.773)
+b = Vector2(-16.1488, 41.773)
 
 [sub_resource type="LabelSettings" id="LabelSettings_iawhg"]
 
@@ -20,6 +30,9 @@ size = Vector2(35, 306)
 size = Vector2(306, 7)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_5cp4r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5vui"]
+size = Vector2(375, 647)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_qy11b")
@@ -34,24 +47,24 @@ offset_top = 1.0
 position = Vector2(81, 348)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
-position = Vector2(315, -5)
+position = Vector2(315, 44)
 shape = SubResource("RectangleShape2D_1ca67")
 
 [node name="Sprite2D" type="Sprite2D" parent="Wall/CollisionShape2D"]
-position = Vector2(1.23978e-05, 1.54972e-05)
-scale = Vector2(35, 517)
+position = Vector2(1.23978e-05, -3.57628e-06)
+scale = Vector2(35, 420)
 texture = SubResource("CanvasTexture_n5jfm")
 
 [node name="Wall2" type="StaticBody2D" parent="."]
 position = Vector2(-43, 317)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
-position = Vector2(779, 26)
+position = Vector2(779, 74.75)
 shape = SubResource("RectangleShape2D_1ca67")
 
 [node name="Sprite2D" type="Sprite2D" parent="Wall2/CollisionShape2D"]
-position = Vector2(1.23978e-05, 1.54972e-05)
-scale = Vector2(35, 517)
+position = Vector2(1.23978e-05, 0.25)
+scale = Vector2(35, 420)
 texture = SubResource("CanvasTexture_n5jfm")
 
 [node name="Floor" type="StaticBody2D" parent="."]
@@ -66,6 +79,32 @@ shape = SubResource("RectangleShape2D_5ia48")
 position = Vector2(1.23978e-05, -0.0169629)
 scale = Vector2(35, 306.012)
 texture = SubResource("CanvasTexture_n5jfm")
+
+[node name="Ramp" type="StaticBody2D" parent="."]
+position = Vector2(388, 115)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ramp"]
+position = Vector2(-19, 35)
+skew = -0.698132
+shape = SubResource("SegmentShape2D_tj2i8")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ramp/CollisionShape2D"]
+position = Vector2(-5.00679e-06, 0.25)
+scale = Vector2(35, 83.5)
+texture = SubResource("CanvasTexture_lt7j8")
+
+[node name="Ramp2" type="StaticBody2D" parent="."]
+position = Vector2(728, 113)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ramp2"]
+position = Vector2(35, 37)
+skew = 0.698132
+shape = SubResource("SegmentShape2D_qk2gr")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ramp2/CollisionShape2D"]
+position = Vector2(-5.00679e-06, 0.25)
+scale = Vector2(35, 83.5)
+texture = SubResource("CanvasTexture_lt7j8")
 
 [node name="PreviewSprite" type="Sprite2D" parent="."]
 position = Vector2(207, 445)
@@ -85,7 +124,7 @@ offset_bottom = 132.0
 label_settings = SubResource("LabelSettings_xeyjn")
 
 [node name="Area2D" type="Area2D" parent="."]
-position = Vector2(565, 137)
+position = Vector2(565, 221)
 script = ExtResource("2_1n4sn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
@@ -96,3 +135,9 @@ shape = SubResource("RectangleShape2D_i44ma")
 position = Vector2(0.99998, -35)
 scale = Vector2(306, 7.00001)
 texture = SubResource("CanvasTexture_5cp4r")
+
+[node name="ClickableArea" type="Area2D" parent="."]
+position = Vector2(566, 278)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickableArea"]
+shape = SubResource("RectangleShape2D_v5vui")
