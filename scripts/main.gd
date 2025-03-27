@@ -9,6 +9,7 @@ var ball_data = [
 	{"texture": preload("res://assets/ball_5.png"), "scene": preload("res://scenes/ball_5.tscn")}
 ]
 
+var dropSound = preload("res://assets/bubbleDrop.wav")
 const SAVEFILE = "user://savefile.save"
 
 var score = 0 
@@ -95,6 +96,7 @@ func load_score():
 		best_score_label.text = "Best Score: " + str(best_score)
 
 func add_score(points):
+	$ballMerge.play()
 	score += points
 	score_label.text = "Score: " + str(score)
 	
@@ -134,6 +136,7 @@ func _input(event):
 		# Ensure ball always spawns within the defined area
 		if spawn_allowed:
 			spawn_ball(preview_sprite.position)
+			$ballDrop.play()
 		else:
 			var clamped_x = clamp(mouse_pos.x, spawn_area_left, spawn_area_right)
 			var spawn_pos = Vector2(clamped_x, fixed_spawn_y)

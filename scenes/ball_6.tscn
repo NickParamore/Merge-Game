@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://byqugvuvime8y" path="res://assets/ball_6.png" id="2_wybyl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m0vul"]
-radius = 35.0
+radius = 52.5
 
 [node name="ball6" type="RigidBody2D" groups=["Ball 6"]]
 max_contacts_reported = 100
@@ -16,7 +16,7 @@ ball_type = "Ball 6"
 shape = SubResource("CircleShape2D_m0vul")
 
 [node name="Purple-01" type="Sprite2D" parent="."]
-scale = Vector2(0.171463, 0.171463)
+scale = Vector2(0.0261229, 0.0261229)
 texture = ExtResource("2_wybyl")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
