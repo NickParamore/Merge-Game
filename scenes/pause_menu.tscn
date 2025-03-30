@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://sx3w211amwn4"]
 
-[ext_resource type="Script" path="res://PauseMenu.gd" id="1_d1lwd"]
+[ext_resource type="Script" path="res://scripts/PauseMenu.gd" id="1_d1lwd"]
 [ext_resource type="Shader" path="res://pause_menu.gdshader" id="2_02e21"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k4jdu"]
@@ -81,20 +81,20 @@ script = ExtResource("1_d1lwd")
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_k4jdu")
 layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 646.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.493
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -35.0
-offset_top = -50.5
-offset_right = 35.0
-offset_bottom = 50.5
+anchor_bottom = 0.493
+offset_left = -181.0
+offset_top = -174.44
+offset_right = 181.0
+offset_bottom = 176.56
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -107,9 +107,9 @@ alignment = 1
 layout_mode = 2
 text = "Resume"
 
-[node name="OptionsButton" type="Button" parent="PanelContainer/VBoxContainer"]
+[node name="MenuButton" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Options"
+text = "Main Menu"
 
 [node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -121,5 +121,5 @@ libraries = {
 }
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MenuButton" to="." method="_on_menu_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

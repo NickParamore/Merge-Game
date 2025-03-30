@@ -9,7 +9,6 @@ var ball_data = [
 	{"texture": preload("res://assets/ball_5.png"), "scene": preload("res://scenes/ball_5.tscn")}
 ]
 
-var dropSound = preload("res://assets/bubbleDrop.wav")
 const SAVEFILE = "user://savefile.save"
 
 var score = 0 
@@ -21,6 +20,8 @@ var next_ball_index = 0
 
 @onready var preview_sprite: Sprite2D = $PreviewSprite  # Make sure this exists in your scene
 @onready var spawn_area: Area2D = $ClickableArea  # Reference your Area2D node
+
+
 var spawn_area_left: float
 var spawn_area_right: float
 var spawn_allowed = false  # Flag to check if the mouse is in the valid spawn area
@@ -109,38 +110,44 @@ func add_score(points):
 var last_valid_position = Vector2()  # Store the last valid position
 
 func _process(delta):
+	# Get the current mouse position
 	var mouse_pos = get_global_mouse_position()
 
 	if spawn_allowed:
-		
-		# Clamp the x position of the preview ball to stay within the spawnable area
-		var clamped_x = clamp(mouse_pos.x, spawn_area_left, spawn_area_right)
+		# Get the radius of the preview ball (based on the preview sprite's scale)
+		var ball_radius = preview_sprite.texture.get_size().x * preview_sprite.scale.x / 2
 
-		# Update last known valid position and move the preview
-		last_valid_position = Vector2(clamped_x, fixed_spawn_y)
-		preview_sprite.position = last_valid_position
+		# Clamp the x position of the preview ball to stay within the spawnable area, considering the ball's radius
+		var clamped_x = clamp(mouse_pos.x, spawn_area_left + ball_radius, spawn_area_right - ball_radius)
+
+		# Update the preview position with the clamped x-coordinate and fixed y-coordinate
+		preview_sprite.position = Vector2(clamped_x, fixed_spawn_y)
 		preview_sprite.show()
-	elif last_valid_position != Vector2():  # Ensure it's not (0,0)
+	elif last_valid_position != Vector2():  # Ensure it's not the zero vector (0, 0)
+		# If the mouse is outside, keep the preview in its last valid position
 		preview_sprite.position = last_valid_position
-
 
 var ball_spawned = false  # Prevents multiple spawns before collision
 
 func _input(event):
-	if event is InputEventMouseButton and event.pressed:
+	if event is InputEventMouseButton and event.pressed and spawn_allowed:
 		if ball_spawned:
 			return  # Prevent multiple spawns before collision
 
 		var mouse_pos = get_global_mouse_position()
-
-		# Ensure ball always spawns within the defined area
-		if spawn_allowed:
-			spawn_ball(preview_sprite.position)
-			$ballDrop.play()
-		else:
-			var clamped_x = clamp(mouse_pos.x, spawn_area_left, spawn_area_right)
-			var spawn_pos = Vector2(clamped_x, fixed_spawn_y)
-			spawn_ball(spawn_pos)
+		$ballDrop.play()
+		
+		# Get the radius of the preview ball (based on the preview sprite's scale)
+		var ball_radius = preview_sprite.texture.get_size().x * preview_sprite.scale.x / 2
+		
+		# Clamp the x position of the preview ball to stay within the spawnable area, considering the ball's radius
+		var clamped_x = clamp(mouse_pos.x, spawn_area_left + ball_radius, spawn_area_right - ball_radius)
+		var spawn_pos = Vector2(clamped_x, fixed_spawn_y)
+		# Update the preview sprite's position to match the spawn position
+		preview_sprite.position = spawn_pos
+		# Spawn the ball at the clamped position
+		spawn_ball(spawn_pos)
+	
 
 func spawn_ball(pos: Vector2):
 	ball_spawned = true  # Prevent further spawns until collision

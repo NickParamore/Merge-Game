@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://cfj577ua1or27"]
+[gd_scene load_steps=15 format=3 uid="uid://cfj577ua1or27"]
 
-[ext_resource type="Script" path="res://scripts/main.gd" id="1_qy11b"]
-[ext_resource type="Script" path="res://Area2D.gd" id="2_1n4sn"]
-[ext_resource type="PackedScene" uid="uid://sx3w211amwn4" path="res://pause_menu.tscn" id="2_r6ejk"]
-[ext_resource type="AudioStream" uid="uid://duqcss3dyrb0q" path="res://assets/bubbleDrop.wav" id="4_cpqup"]
-[ext_resource type="AudioStream" uid="uid://bsxcxe3q2ubkc" path="res://assets/bubbleMerge.mp3" id="5_krhbo"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_xlh7y"]
+[ext_resource type="Texture2D" uid="uid://diaaj8ossm1yq" path="res://assets/8paldu54iva61.png" id="2_gvfx4"]
+[ext_resource type="PackedScene" uid="uid://sx3w211amwn4" path="res://scenes/pause_menu.tscn" id="3_bjbop"]
+[ext_resource type="Script" path="res://scripts/Area2D.gd" id="4_2ld34"]
+[ext_resource type="AudioStream" uid="uid://duqcss3dyrb0q" path="res://assets/bubbleDrop.wav" id="5_hvc6m"]
+[ext_resource type="AudioStream" uid="uid://bsxcxe3q2ubkc" path="res://assets/bubbleMerge.mp3" id="6_vtbbr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ca67"]
 size = Vector2(70, 700)
@@ -14,19 +15,11 @@ size = Vector2(70, 700)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ia48"]
 size = Vector2(70, 500)
 
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_tj2i8"]
-a = Vector2(33.8633, -82.2407)
-b = Vector2(34.2976, 83.5461)
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_lt7j8"]
-
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_qk2gr"]
-a = Vector2(-33.8633, -82.2407)
-b = Vector2(-34.2975, 83.5461)
-
 [sub_resource type="LabelSettings" id="LabelSettings_iawhg"]
+font_size = 30
 
 [sub_resource type="LabelSettings" id="LabelSettings_xeyjn"]
+font_size = 30
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i44ma"]
 size = Vector2(500, 18)
@@ -34,16 +27,21 @@ size = Vector2(500, 18)
 [sub_resource type="CanvasTexture" id="CanvasTexture_5cp4r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v5vui"]
-size = Vector2(640, 1080)
+size = Vector2(500, 1080)
 
 [node name="Node2D" type="Node2D"]
-script = ExtResource("1_qy11b")
+script = ExtResource("1_xlh7y")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(962.119, 544.75)
+scale = Vector2(1.00992, 0.998611)
+texture = ExtResource("2_gvfx4")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("2_r6ejk")]
-offset_right = -1.0
-offset_bottom = -1.0
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_bjbop")]
+offset_right = 11.0
+offset_bottom = 6.0
 
 [node name="Wall" type="StaticBody2D" parent="."]
 position = Vector2(345, 745)
@@ -61,12 +59,12 @@ texture = SubResource("CanvasTexture_n5jfm")
 position = Vector2(461, 531)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
-position = Vector2(779, 74.75)
+position = Vector2(779, 75)
 shape = SubResource("RectangleShape2D_1ca67")
 
 [node name="Sprite2D" type="Sprite2D" parent="Wall2/CollisionShape2D"]
-position = Vector2(3.24249e-05, 0.249981)
-scale = Vector2(70, 700)
+position = Vector2(3.24249e-05, 0.124978)
+scale = Vector2(70, 700.25)
 texture = SubResource("CanvasTexture_n5jfm")
 
 [node name="Floor" type="StaticBody2D" parent="."]
@@ -82,32 +80,6 @@ position = Vector2(-0.0461254, 0.0484895)
 scale = Vector2(69.9706, 500.013)
 texture = SubResource("CanvasTexture_n5jfm")
 
-[node name="Ramp" type="StaticBody2D" parent="."]
-position = Vector2(635, 157)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ramp"]
-position = Vector2(-19, 35)
-skew = -0.698132
-shape = SubResource("SegmentShape2D_tj2i8")
-
-[node name="Sprite2D" type="Sprite2D" parent="Ramp/CollisionShape2D"]
-position = Vector2(-5.00679e-06, 0.25)
-scale = Vector2(70, 167)
-texture = SubResource("CanvasTexture_lt7j8")
-
-[node name="Ramp2" type="StaticBody2D" parent="."]
-position = Vector2(1259, 155)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ramp2"]
-position = Vector2(35, 37)
-skew = 0.698132
-shape = SubResource("SegmentShape2D_qk2gr")
-
-[node name="Sprite2D" type="Sprite2D" parent="Ramp2/CollisionShape2D"]
-position = Vector2(-5.00679e-06, 0.25)
-scale = Vector2(70, 167)
-texture = SubResource("CanvasTexture_lt7j8")
-
 [node name="PreviewSprite" type="Sprite2D" parent="."]
 position = Vector2(207, 445)
 
@@ -119,6 +91,7 @@ offset_bottom = 90.0
 label_settings = SubResource("LabelSettings_iawhg")
 
 [node name="BestScore" type="Label" parent="."]
+texture_filter = 6
 offset_left = 130.0
 offset_top = 109.0
 offset_right = 294.0
@@ -127,7 +100,7 @@ label_settings = SubResource("LabelSettings_xeyjn")
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2(937, 310)
-script = ExtResource("2_1n4sn")
+script = ExtResource("4_2ld34")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(18, -45)
@@ -139,16 +112,15 @@ scale = Vector2(500, 18)
 texture = SubResource("CanvasTexture_5cp4r")
 
 [node name="ClickableArea" type="Area2D" parent="."]
-position = Vector2(960, 475)
+position = Vector2(955, 539)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickableArea"]
-position = Vector2(-5, 65)
 shape = SubResource("RectangleShape2D_v5vui")
 
 [node name="ballDrop" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_cpqup")
+stream = ExtResource("5_hvc6m")
 volume_db = -24.372
 
 [node name="ballMerge" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_krhbo")
+stream = ExtResource("6_vtbbr")
 volume_db = -32.996
