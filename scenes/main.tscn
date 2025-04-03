@@ -1,7 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://cfj577ua1or27"]
+[gd_scene load_steps=19 format=3 uid="uid://cfj577ua1or27"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_xlh7y"]
-[ext_resource type="Texture2D" uid="uid://bujbu85ber3se" path="res://assets/background.png" id="2_su3qh"]
+[ext_resource type="Texture2D" uid="uid://s7t3ukxyb2jy" path="res://assets/test.png" id="2_1u6j2"]
+[ext_resource type="Texture2D" uid="uid://imtyxlbyabp0" path="res://assets/background.png" id="2_su3qh"]
+[ext_resource type="Script" path="res://scenes/ParallaxBackground.gd" id="2_yxneg"]
 [ext_resource type="PackedScene" uid="uid://sx3w211amwn4" path="res://scenes/pause_menu.tscn" id="3_bjbop"]
 [ext_resource type="FontFile" uid="uid://bgs6qic5nx52k" path="res://assets/Fredoka-VariableFont_wdth,wght.ttf" id="4_2kihc"]
 [ext_resource type="Script" path="res://scripts/Area2D.gd" id="4_2ld34"]
@@ -9,10 +11,10 @@
 [ext_resource type="AudioStream" uid="uid://bsxcxe3q2ubkc" path="res://assets/bubbleMerge.mp3" id="6_vtbbr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ca67"]
-size = Vector2(72, 747)
+size = Vector2(13.5, 801)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ia48"]
-size = Vector2(70, 500)
+size = Vector2(19, 632)
 
 [sub_resource type="FontVariation" id="FontVariation_ctnhr"]
 base_font = ExtResource("4_2kihc")
@@ -23,7 +25,7 @@ variation_opentype = {
 [sub_resource type="LabelSettings" id="LabelSettings_iawhg"]
 font = SubResource("FontVariation_ctnhr")
 font_size = 35
-font_color = Color(0.737935, 0.418518, 0.0509593, 1)
+font_color = Color(0.313726, 0.431373, 1, 1)
 
 [sub_resource type="FontVariation" id="FontVariation_vov42"]
 base_font = ExtResource("4_2kihc")
@@ -34,18 +36,28 @@ variation_opentype = {
 [sub_resource type="LabelSettings" id="LabelSettings_xeyjn"]
 font = SubResource("FontVariation_vov42")
 font_size = 35
-font_color = Color(0.737255, 0.419608, 0.0509804, 1)
+font_color = Color(0.313726, 0.431373, 1, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i44ma"]
-size = Vector2(486, 18)
+size = Vector2(606, 18)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_5cp4r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v5vui"]
-size = Vector2(486, 1081)
+size = Vector2(630, 1081)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_xlh7y")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource("2_yxneg")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture = ExtResource("2_1u6j2")
+centered = false
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(959.889, 539.5)
@@ -62,21 +74,21 @@ offset_bottom = 6.0
 position = Vector2(345, 745)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
-position = Vector2(336, -125.5)
+position = Vector2(294, -98)
 shape = SubResource("RectangleShape2D_1ca67")
 
 [node name="Wall2" type="StaticBody2D" parent="."]
 position = Vector2(461, 531)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
-position = Vector2(778, 88)
+position = Vector2(822, 119)
 shape = SubResource("RectangleShape2D_1ca67")
 
 [node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(320, 652)
+position = Vector2(320, 694)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-position = Vector2(637, 300)
+position = Vector2(641, 351.5)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_5ia48")
 
@@ -84,22 +96,22 @@ shape = SubResource("RectangleShape2D_5ia48")
 position = Vector2(207, 445)
 
 [node name="Score" type="Label" parent="."]
-offset_left = 78.0
-offset_top = 56.0
-offset_right = 408.0
-offset_bottom = 109.0
+offset_left = 70.0
+offset_top = 55.0
+offset_right = 400.0
+offset_bottom = 108.0
 label_settings = SubResource("LabelSettings_iawhg")
 
 [node name="BestScore" type="Label" parent="."]
 texture_filter = 6
-offset_left = 80.0
-offset_top = 127.0
-offset_right = 394.0
-offset_bottom = 177.0
+offset_left = 68.0
+offset_top = 187.0
+offset_right = 382.0
+offset_bottom = 237.0
 label_settings = SubResource("LabelSettings_xeyjn")
 
 [node name="Area2D" type="Area2D" parent="."]
-position = Vector2(942, 306)
+position = Vector2(943, 412)
 script = ExtResource("4_2ld34")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
@@ -107,12 +119,13 @@ position = Vector2(18, -45)
 shape = SubResource("RectangleShape2D_i44ma")
 
 [node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+visible = false
 position = Vector2(18, -45)
-scale = Vector2(486, 18)
+scale = Vector2(606, 18)
 texture = SubResource("CanvasTexture_5cp4r")
 
 [node name="ClickableArea" type="Area2D" parent="."]
-position = Vector2(960, 540)
+position = Vector2(961, 540)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickableArea"]
 shape = SubResource("RectangleShape2D_v5vui")
