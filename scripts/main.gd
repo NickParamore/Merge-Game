@@ -26,7 +26,7 @@ var spawn_area_left: float
 var spawn_area_right: float
 var spawn_allowed = false  # Flag to check if the mouse is in the valid spawn area
 
-var fixed_spawn_y = 50  # Custom spawn height
+var fixed_spawn_y = 250  # Custom spawn height
 
 func generate_next_ball_preview():
 	# Pick a random ball from the first 5

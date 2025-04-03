@@ -39,12 +39,12 @@ font_size = 35
 font_color = Color(0.313726, 0.431373, 1, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i44ma"]
-size = Vector2(606, 18)
+size = Vector2(603, 18)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_5cp4r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v5vui"]
-size = Vector2(630, 1081)
+size = Vector2(540, 1081)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_xlh7y")
@@ -74,21 +74,21 @@ offset_bottom = 6.0
 position = Vector2(345, 745)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
-position = Vector2(294, -98)
+position = Vector2(338, -95)
 shape = SubResource("RectangleShape2D_1ca67")
 
 [node name="Wall2" type="StaticBody2D" parent="."]
 position = Vector2(461, 531)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
-position = Vector2(822, 119)
+position = Vector2(776, 122)
 shape = SubResource("RectangleShape2D_1ca67")
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(320, 694)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-position = Vector2(641, 351.5)
+position = Vector2(644, 327)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_5ia48")
 
@@ -96,18 +96,18 @@ shape = SubResource("RectangleShape2D_5ia48")
 position = Vector2(207, 445)
 
 [node name="Score" type="Label" parent="."]
-offset_left = 70.0
-offset_top = 55.0
-offset_right = 400.0
+offset_left = 71.0
+offset_top = 59.0
+offset_right = 373.0
 offset_bottom = 108.0
 label_settings = SubResource("LabelSettings_iawhg")
 
 [node name="BestScore" type="Label" parent="."]
 texture_filter = 6
 offset_left = 68.0
-offset_top = 187.0
+offset_top = 180.0
 offset_right = 382.0
-offset_bottom = 237.0
+offset_bottom = 229.0
 label_settings = SubResource("LabelSettings_xeyjn")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -115,7 +115,7 @@ position = Vector2(943, 412)
 script = ExtResource("4_2ld34")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(18, -45)
+position = Vector2(17, 13)
 shape = SubResource("RectangleShape2D_i44ma")
 
 [node name="Sprite2D" type="Sprite2D" parent="Area2D"]
@@ -128,6 +128,7 @@ texture = SubResource("CanvasTexture_5cp4r")
 position = Vector2(961, 540)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickableArea"]
+position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_v5vui")
 
 [node name="ballDrop" type="AudioStreamPlayer" parent="."]
