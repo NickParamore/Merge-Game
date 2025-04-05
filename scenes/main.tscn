@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cfj577ua1or27"]
+[gd_scene load_steps=20 format=3 uid="uid://cfj577ua1or27"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_xlh7y"]
 [ext_resource type="Texture2D" uid="uid://s7t3ukxyb2jy" path="res://assets/test.png" id="2_1u6j2"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://sx3w211amwn4" path="res://scenes/pause_menu.tscn" id="3_bjbop"]
 [ext_resource type="FontFile" uid="uid://bgs6qic5nx52k" path="res://assets/Fredoka-VariableFont_wdth,wght.ttf" id="4_2kihc"]
 [ext_resource type="Script" path="res://scripts/Area2D.gd" id="4_2ld34"]
+[ext_resource type="Texture2D" uid="uid://16je28p7qc8a" path="res://assets/clouds.png" id="4_44mfc"]
 [ext_resource type="AudioStream" uid="uid://duqcss3dyrb0q" path="res://assets/bubbleDrop.wav" id="5_hvc6m"]
 [ext_resource type="AudioStream" uid="uid://bsxcxe3q2ubkc" path="res://assets/bubbleMerge.mp3" id="6_vtbbr"]
 
@@ -59,6 +60,10 @@ motion_mirroring = Vector2(1920, 0)
 texture = ExtResource("2_1u6j2")
 centered = false
 
+[node name="Clouds" type="Sprite2D" parent="."]
+position = Vector2(994, 821)
+texture = ExtResource("4_44mfc")
+
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(959.889, 539.5)
 scale = Vector2(1.00107, 1.00093)
@@ -88,7 +93,7 @@ shape = SubResource("RectangleShape2D_1ca67")
 position = Vector2(320, 694)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-position = Vector2(644, 327)
+position = Vector2(645, 246)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_5ia48")
 
@@ -96,18 +101,18 @@ shape = SubResource("RectangleShape2D_5ia48")
 position = Vector2(207, 445)
 
 [node name="Score" type="Label" parent="."]
-offset_left = 71.0
-offset_top = 59.0
-offset_right = 373.0
-offset_bottom = 108.0
+offset_left = 77.0
+offset_top = 65.0
+offset_right = 379.0
+offset_bottom = 114.0
 label_settings = SubResource("LabelSettings_iawhg")
 
 [node name="BestScore" type="Label" parent="."]
 texture_filter = 6
-offset_left = 68.0
-offset_top = 180.0
-offset_right = 382.0
-offset_bottom = 229.0
+offset_left = 72.0
+offset_top = 185.0
+offset_right = 386.0
+offset_bottom = 234.0
 label_settings = SubResource("LabelSettings_xeyjn")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -125,10 +130,9 @@ scale = Vector2(606, 18)
 texture = SubResource("CanvasTexture_5cp4r")
 
 [node name="ClickableArea" type="Area2D" parent="."]
-position = Vector2(961, 540)
+position = Vector2(960, 540)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickableArea"]
-position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_v5vui")
 
 [node name="ballDrop" type="AudioStreamPlayer" parent="."]

@@ -109,7 +109,15 @@ func add_score(points):
 
 var last_valid_position = Vector2()  # Store the last valid position
 
+@onready var clouds: Sprite2D = $Clouds
+var bob_speed = 1.5  # How fast it bobs
+var bob_amplitude = 5.0  # How far it bobs
+var original_y = 820
+var time_passed = 0.0
+
 func _process(delta):
+	time_passed += delta
+	clouds.position.y = original_y + sin(time_passed * bob_speed) * bob_amplitude
 	# Get the current mouse position
 	var mouse_pos = get_global_mouse_position()
 
