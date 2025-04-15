@@ -25,8 +25,9 @@ func _on_resume_button_pressed() -> void:
 	resume()
 
 
-func _on_quit_button_pressed() -> void:
-	get_tree().quit()
+func _on_restart_button_pressed() -> void:
+	resume()
+	get_tree().change_scene_to_file("res://scenes/main.tscn")  # Adjust the path if your main scene is elsewhere
 
 func _process(delta: float) -> void:
 	testEsc()

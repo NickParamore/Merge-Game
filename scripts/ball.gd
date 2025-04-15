@@ -1,5 +1,4 @@
 extends RigidBody2D
-
 # Define the merge hierarchy (Ball 1 -> Ball 2, ..., Ball 7 -> Ball 8)
 var ball_merge_map = {
 	"Ball 1": "Ball 2",
@@ -71,11 +70,29 @@ func _on_body_entered(body) -> void:
 			# Defer the creation of the new ball and scoring update
 			call_deferred("spawn_new_ball", next_ball_type, new_position, body)
 
+var merge_particle_scene = preload("res://scenes/pop_particle.tscn")
+
 func spawn_new_ball(next_ball_type, new_position, body):
+	# Instantiate the particle effect
+	var particle_instance = merge_particle_scene.instantiate()
+
+	# Instantiate the new ball
 	var new_ball = ball_scenes[next_ball_type].instantiate()
 	new_ball.position = new_position
 	new_ball.ball_type = next_ball_type
+
+	# Parent the particle to the new ball, so it moves with it
+	new_ball.add_child(particle_instance)
+
+	# Position the particle relative to the ball's position (adjust if needed)
+	particle_instance.global_position = new_position
+
+	# Now add the ball to the parent scene
 	get_parent().add_child(new_ball)
+
+	# Enable the particle effect
+	particle_instance.get_node("CPUParticles2D").emitting = true
+	
 
 	# Update score
 	if ball_type in score_map:

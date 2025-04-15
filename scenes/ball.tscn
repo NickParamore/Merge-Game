@@ -7,6 +7,7 @@
 radius = 15.0
 
 [node name="Ball" type="RigidBody2D" groups=["Ball 1"]]
+gravity_scale = 0.509
 max_contacts_reported = 100
 contact_monitor = true
 script = ExtResource("1_mrpmf")
@@ -16,7 +17,7 @@ ball_type = "Ball 1"
 shape = SubResource("CircleShape2D_8c077")
 
 [node name="Yellow-01" type="Sprite2D" parent="."]
-scale = Vector2(0.00742581, 0.00742581)
+scale = Vector2(0.0309282, 0.0309282)
 texture = ExtResource("2_ukebt")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

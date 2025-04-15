@@ -15,78 +15,63 @@ var score = 0
 var best_score = 0
 @onready var score_label = $Score
 @onready var best_score_label = $BestScore
-var rng = RandomNumberGenerator.new()
+@onready var preview_sprite: Sprite2D = $PreviewSprite
+@onready var next_preview_sprite: Sprite2D = $NextBall/NextBallSprite
+@onready var spawn_area: Area2D = $ClickableArea
+@onready var clouds: Sprite2D = $Clouds
+
+var current_ball_index = 0
 var next_ball_index = 0
-
-@onready var preview_sprite: Sprite2D = $PreviewSprite  # Make sure this exists in your scene
-@onready var spawn_area: Area2D = $ClickableArea  # Reference your Area2D node
-
+var rng = RandomNumberGenerator.new()
 
 var spawn_area_left: float
 var spawn_area_right: float
-var spawn_allowed = false  # Flag to check if the mouse is in the valid spawn area
+var spawn_allowed = false
+var fixed_spawn_y = 250
+var last_valid_position = Vector2()
 
-var fixed_spawn_y = 250  # Custom spawn height
-
-func generate_next_ball_preview():
-	# Pick a random ball from the first 5
-	next_ball_index = rng.randi_range(0, ball_data.size() - 1)
-
-	var next_ball_texture = ball_data[next_ball_index]["texture"]
-	var next_ball_scene = ball_data[next_ball_index]["scene"]
-
-	if preview_sprite:
-		preview_sprite.texture = next_ball_texture  # Update texture
-		
-		if next_ball_texture:
-			# Get the texture size
-			var texture_size = next_ball_texture.get_size()
-			
-			# Get the actual ball instance to find its correct in-game scale
-			var temp_ball = next_ball_scene.instantiate()
-			var ball_size = temp_ball.get_node("CollisionShape2D").shape.radius * 2  # Diameter
-			temp_ball.queue_free()  # Delete temporary ball
-			
-			# Scale the preview sprite to match the actual in-game ball size
-			preview_sprite.scale = Vector2(ball_size / texture_size.x, ball_size / texture_size.y)
-		else:
-			print("⚠️ Warning: Texture not found for preview ball.")
-	else:
-		print("⚠️ Warning: 'PreviewSprite' not found or not a Sprite2D.")
-
+var bob_speed = 1.5
+var bob_amplitude = 5.0
+var original_y = 820
+var time_passed = 0.0
 
 func _ready():
-	#Generate the preview ball
 	generate_next_ball_preview()
 	score_label.text = "Score: 0"
 	load_score()
 	spawn_area.connect("mouse_entered", _on_spawn_area_entered)
 	spawn_area.connect("mouse_exited", _on_spawn_area_exited)
-	preview_sprite.hide()  # Hide preview initially
+	preview_sprite.hide()
 
-	# Get the spawnable area bounds (adjust these as needed)
 	var spawn_area_rect = spawn_area.get_node("CollisionShape2D").shape.get_rect()
 	spawn_area_left = spawn_area.global_position.x + spawn_area_rect.position.x
 	spawn_area_right = spawn_area_left + spawn_area_rect.size.x
 
-	# Calculate the center of the spawnable area
 	var spawn_area_center = (spawn_area_left + spawn_area_right) / 2
-
-	# Set the preview ball to the center of the spawnable area
 	preview_sprite.position = Vector2(spawn_area_center, fixed_spawn_y)
-
-	# Show the preview now
 	preview_sprite.show()
 
+func _process(delta):
+	time_passed += delta
+	clouds.position.y = original_y + sin(time_passed * bob_speed) * bob_amplitude
+	var mouse_pos = get_global_mouse_position()
+
+	if spawn_allowed:
+		var ball_radius = preview_sprite.texture.get_size().x * preview_sprite.scale.x / 2
+		var clamped_x = clamp(mouse_pos.x, spawn_area_left + ball_radius, spawn_area_right - ball_radius)
+		preview_sprite.position = Vector2(clamped_x, fixed_spawn_y)
+		preview_sprite.show()
+	elif last_valid_position != Vector2():
+		preview_sprite.position = last_valid_position
 
 func _on_spawn_area_entered():
 	spawn_allowed = true
 
 func _on_spawn_area_exited():
 	spawn_allowed = false
-	
+
 func save_score():
-	if best_score > 0:  # Only save if there's a valid score
+	if best_score > 0:
 		var file = FileAccess.open(SAVEFILE, FileAccess.WRITE)
 		file.store_32(best_score)
 
@@ -100,76 +85,63 @@ func add_score(points):
 	$ballMerge.play()
 	score += points
 	score_label.text = "Score: " + str(score)
-	
-	# Update best score if the new score is higher
 	if score > best_score:
 		best_score = score
 		best_score_label.text = "Best Score: " + str(best_score)
 		save_score()
 
-var last_valid_position = Vector2()  # Store the last valid position
-
-@onready var clouds: Sprite2D = $Clouds
-var bob_speed = 1.5  # How fast it bobs
-var bob_amplitude = 5.0  # How far it bobs
-var original_y = 820
-var time_passed = 0.0
-
-func _process(delta):
-	time_passed += delta
-	clouds.position.y = original_y + sin(time_passed * bob_speed) * bob_amplitude
-	# Get the current mouse position
-	var mouse_pos = get_global_mouse_position()
-
-	if spawn_allowed:
-		# Get the radius of the preview ball (based on the preview sprite's scale)
-		var ball_radius = preview_sprite.texture.get_size().x * preview_sprite.scale.x / 2
-
-		# Clamp the x position of the preview ball to stay within the spawnable area, considering the ball's radius
-		var clamped_x = clamp(mouse_pos.x, spawn_area_left + ball_radius, spawn_area_right - ball_radius)
-
-		# Update the preview position with the clamped x-coordinate and fixed y-coordinate
-		preview_sprite.position = Vector2(clamped_x, fixed_spawn_y)
-		preview_sprite.show()
-	elif last_valid_position != Vector2():  # Ensure it's not the zero vector (0, 0)
-		# If the mouse is outside, keep the preview in its last valid position
-		preview_sprite.position = last_valid_position
-
-var ball_spawned = false  # Prevents multiple spawns before collision
+var ball_spawned = false
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and spawn_allowed:
 		if ball_spawned:
-			return  # Prevent multiple spawns before collision
-
+			return
 		var mouse_pos = get_global_mouse_position()
 		$ballDrop.play()
-		
-		# Get the radius of the preview ball (based on the preview sprite's scale)
 		var ball_radius = preview_sprite.texture.get_size().x * preview_sprite.scale.x / 2
-		
-		# Clamp the x position of the preview ball to stay within the spawnable area, considering the ball's radius
 		var clamped_x = clamp(mouse_pos.x, spawn_area_left + ball_radius, spawn_area_right - ball_radius)
 		var spawn_pos = Vector2(clamped_x, fixed_spawn_y)
-		# Update the preview sprite's position to match the spawn position
 		preview_sprite.position = spawn_pos
-		# Spawn the ball at the clamped position
 		spawn_ball(spawn_pos)
-	
 
 func spawn_ball(pos: Vector2):
-	ball_spawned = true  # Prevent further spawns until collision
-
-	var ball_instance = ball_data[next_ball_index]["scene"].instantiate()
+	ball_spawned = true
+	var ball_instance = ball_data[current_ball_index]["scene"].instantiate()
 	pos.x = clamp(pos.x, spawn_area_left, spawn_area_right)
-	pos.y = fixed_spawn_y  # Keep ball within the spawn area
-
+	pos.y = fixed_spawn_y
 	ball_instance.position = pos
 	add_child(ball_instance)
-	
 	generate_next_ball_preview()
-	# Connect the collision signal
 	ball_instance.connect("ball_collided", Callable(self, "_on_ball_collided"))
 
 func _on_ball_collided():
-	ball_spawned = false  # Allow spawning again
+	ball_spawned = false
+
+func generate_next_ball_preview():
+	current_ball_index = next_ball_index
+	next_ball_index = rng.randi_range(0, ball_data.size() - 1)
+
+	var current_texture = ball_data[current_ball_index]["texture"]
+	var next_texture = ball_data[next_ball_index]["texture"]
+	var current_scene = ball_data[current_ball_index]["scene"]
+	var next_scene = ball_data[next_ball_index]["scene"]
+
+	if preview_sprite:
+		preview_sprite.texture = current_texture
+		if current_texture:
+			var texture_size = current_texture.get_size()
+			var temp_ball = current_scene.instantiate()
+			var ball_size = temp_ball.get_node("CollisionShape2D").shape.radius * 2
+			temp_ball.queue_free()
+			preview_sprite.scale = Vector2(ball_size / texture_size.x, ball_size / texture_size.y)
+
+	if next_preview_sprite:
+		next_preview_sprite.texture = next_texture
+		if next_texture:
+			var next_size = next_texture.get_size()
+			var temp_next = next_scene.instantiate()
+			var ball_size_next = temp_next.get_node("CollisionShape2D").shape.radius * 2
+			temp_next.queue_free()
+			next_preview_sprite.scale = Vector2(ball_size_next / next_size.x, ball_size_next / next_size.y)
+		else:
+			print("⚠️ Warning: Next ball texture not found.")

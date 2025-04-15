@@ -16,7 +16,8 @@ ball_type = "Ball 9"
 shape = SubResource("CircleShape2D_5tso4")
 
 [node name="Ball9" type="Sprite2D" parent="."]
-scale = Vector2(0.037227, 0.037227)
+position = Vector2(5.96046e-08, 5.96046e-08)
+scale = Vector2(0.155288, 0.155288)
 texture = ExtResource("2_pofpt")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
