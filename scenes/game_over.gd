@@ -1,17 +1,10 @@
 extends Control
 
-@onready var score_label = $PanelContainer/VBoxContainer/Score
-@onready var best_score_label = $PanelContainer/VBoxContainer/BestScore
-
 var is_game_over = false
 
 func _ready() -> void:
 	$AnimationPlayer.play("RESET")
 	hide()
-
-func set_scores(score: int, best_score: int) -> void:
-	score_label.text = "Score: " + str(score)
-	best_score_label.text = "Best Score: " + str(best_score)
 
 func set_game_over():
 	is_game_over = true

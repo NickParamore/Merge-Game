@@ -72,8 +72,6 @@ func _on_timeout(ball):
 		var main_node = get_node("/root/Node2D")  # Adjust this path if your Main is named differently
 		var game_over_screen = get_node("/root/Node2D/CanvasLayer2/GameOver")
 
-		# Pass score and best_score to GameOver
-		game_over_screen.set_scores(main_node.score, main_node.best_score)
 		game_over_screen.set_game_over()
 
 		# Pause the game

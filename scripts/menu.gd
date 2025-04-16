@@ -6,9 +6,6 @@ var bob_speed = 1.5
 var bob_amplitude = 5.0
 var original_y = 820
 var time_passed = 0.0
-
-func _ready():
-	$VBoxContainer/StartButton.grab_focus()
 	
 func _process(delta):
 	time_passed += delta
