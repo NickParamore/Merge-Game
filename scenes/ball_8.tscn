@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dcr3qt76ybj0k" path="res://assets/ball_8.png" id="2_8rf4p"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g65vl"]
-radius = 67.5
+radius = 85.0
 
 [node name="ball8" type="RigidBody2D" groups=["Ball 8"]]
 max_contacts_reported = 100
@@ -16,7 +16,8 @@ ball_type = "Ball 8"
 shape = SubResource("CircleShape2D_g65vl")
 
 [node name="Ball8" type="Sprite2D" parent="."]
-scale = Vector2(0.139214, 0.139214)
+position = Vector2(-1.19209e-07, -1.19209e-07)
+scale = Vector2(0.175402, 0.175402)
 texture = ExtResource("2_8rf4p")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

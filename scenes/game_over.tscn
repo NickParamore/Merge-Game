@@ -1,12 +1,14 @@
-[gd_scene load_steps=18 format=3 uid="uid://btev61t2t1jg1"]
+[gd_scene load_steps=20 format=3 uid="uid://btev61t2t1jg1"]
 
-[ext_resource type="Shader" path="res://pause_menu.gdshader" id="1_3pli5"]
 [ext_resource type="Script" path="res://scenes/game_over.gd" id="1_8blro"]
+[ext_resource type="Shader" path="res://assets/pause_menu.gdshader" id="2_px5pi"]
 [ext_resource type="FontFile" uid="uid://bgs6qic5nx52k" path="res://assets/Fredoka-VariableFont_wdth,wght.ttf" id="3_yyc3e"]
 [ext_resource type="StyleBox" uid="uid://cg7b52xiy6loh" path="res://assets/buttonHover.tres" id="4_lq441"]
+[ext_resource type="AudioStream" uid="uid://b63c4mmkf7e7w" path="res://assets/ButtonHover.wav" id="5_rjrbi"]
+[ext_resource type="AudioStream" uid="uid://ddvbmsr71chxc" path="res://assets/ButtonSelect.ogg" id="6_su3p0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vfq68"]
-shader = ExtResource("1_3pli5")
+shader = ExtResource("2_px5pi")
 shader_parameter/lod = 0.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s0g61"]
@@ -15,22 +17,22 @@ border_width_left = 8
 border_width_top = 8
 border_width_right = 8
 border_width_bottom = 8
-border_color = Color(0.0666667, 0.67451, 0.917647, 1)
+border_color = Color(0, 0.654902, 0.839216, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
-[sub_resource type="FontVariation" id="FontVariation_gomrr"]
+[sub_resource type="FontVariation" id="FontVariation_1vr5j"]
 base_font = ExtResource("3_yyc3e")
 variation_opentype = {
 2003265652: 600
 }
 
 [sub_resource type="LabelSettings" id="LabelSettings_bkoww"]
-font = SubResource("FontVariation_gomrr")
+font = SubResource("FontVariation_1vr5j")
 font_size = 50
-font_color = Color(0.0666667, 0.67451, 0.917647, 1)
+font_color = Color(0, 0.654902, 0.839216, 1)
 
 [sub_resource type="FontVariation" id="FontVariation_w46tt"]
 base_font = ExtResource("3_yyc3e")
@@ -46,14 +48,14 @@ border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color(0.0666667, 0.67451, 0.917647, 1)
+border_color = Color(0, 0.654902, 0.839216, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_33rdk"]
-bg_color = Color(0.0666667, 0.67451, 0.917647, 1)
+bg_color = Color(0, 0.654902, 0.839216, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -73,14 +75,14 @@ border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color(0.0666667, 0.67451, 0.917647, 1)
+border_color = Color(0, 0.654902, 0.839216, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i7w5f"]
-bg_color = Color(0.0666667, 0.67451, 0.917647, 1)
+bg_color = Color(0, 0.654902, 0.839216, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -197,8 +199,9 @@ theme_override_constants/margin_top = 50
 
 [node name="RestartButton" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer2"]
 process_mode = 2
+custom_minimum_size = Vector2(250, 65)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.0666667, 0.67451, 0.917647, 1)
+theme_override_colors/font_color = Color(0, 0.654902, 0.839216, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = SubResource("FontVariation_w46tt")
 theme_override_font_sizes/font_size = 35
@@ -214,8 +217,9 @@ theme_override_constants/margin_top = 15
 
 [node name="MenuButton" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer"]
 process_mode = 2
+custom_minimum_size = Vector2(250, 65)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.0666667, 0.67451, 0.917647, 1)
+theme_override_colors/font_color = Color(0, 0.654902, 0.839216, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = SubResource("FontVariation_cq0c2")
 theme_override_font_sizes/font_size = 35
@@ -226,9 +230,22 @@ theme_override_styles/focus = ExtResource("4_lq441")
 text = "Main Menu"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
 libraries = {
 "": SubResource("AnimationLibrary_vqb6m")
 }
 
+[node name="HoverSound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("5_rjrbi")
+volume_db = -20.0
+
+[node name="SelectSound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("6_su3p0")
+volume_db = -20.0
+
+[connection signal="mouse_entered" from="PanelContainer/VBoxContainer/MarginContainer2/RestartButton" to="." method="_on_restart_button_mouse_entered"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer2/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="mouse_entered" from="PanelContainer/VBoxContainer/MarginContainer/MenuButton" to="." method="_on_menu_button_mouse_entered"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/MenuButton" to="." method="_on_menu_button_pressed"]

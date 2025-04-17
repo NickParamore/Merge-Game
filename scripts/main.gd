@@ -11,6 +11,7 @@ var ball_data = [
 
 const SAVEFILE = "user://savefile.save"
 
+
 var score = 0 
 var best_score = 0
 @onready var score_label = $Score

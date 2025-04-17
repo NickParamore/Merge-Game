@@ -1,12 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://bnqtfveqbiq51"]
+[gd_scene load_steps=15 format=3 uid="uid://bnqtfveqbiq51"]
 
 [ext_resource type="Script" path="res://scripts/menu.gd" id="1_h0w7b"]
+[ext_resource type="Texture2D" uid="uid://16je28p7qc8a" path="res://assets/clouds.png" id="2_8p1j1"]
 [ext_resource type="FontFile" uid="uid://bgs6qic5nx52k" path="res://assets/Fredoka-VariableFont_wdth,wght.ttf" id="2_n1m3k"]
-[ext_resource type="Texture2D" uid="uid://fd6jhyreo354" path="res://assets/menu_clouds.png" id="2_sjm3b"]
 [ext_resource type="Texture2D" uid="uid://bmn0j20dy68r" path="res://assets/title.png" id="3_lftms"]
 [ext_resource type="Script" path="res://scenes/ParallaxBackground.gd" id="5_c70x3"]
+[ext_resource type="StyleBox" uid="uid://ow67pr6786mn" path="res://assets/Button.tres" id="5_oocwn"]
 [ext_resource type="StyleBox" uid="uid://cg7b52xiy6loh" path="res://assets/buttonHover.tres" id="5_ovfmp"]
 [ext_resource type="Texture2D" uid="uid://s7t3ukxyb2jy" path="res://assets/test.png" id="6_w4v18"]
+[ext_resource type="AudioStream" uid="uid://b63c4mmkf7e7w" path="res://assets/ButtonHover.wav" id="9_mcj4u"]
+[ext_resource type="AudioStream" uid="uid://ddvbmsr71chxc" path="res://assets/ButtonSelect.ogg" id="10_e4cxs"]
 
 [sub_resource type="FontVariation" id="FontVariation_kd0hr"]
 base_font = ExtResource("2_n1m3k")
@@ -14,20 +17,8 @@ variation_opentype = {
 2003265652: 600
 }
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wxbea"]
-bg_color = Color(1, 1, 1, 1)
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
-border_color = Color(0.0666667, 0.67451, 0.917647, 1)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q1uvt"]
-bg_color = Color(0.0666667, 0.67451, 0.917647, 1)
+bg_color = Color(0, 0.654902, 0.839216, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -41,11 +32,11 @@ variation_opentype = {
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqjyw"]
 bg_color = Color(1, 1, 1, 1)
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
-border_color = Color(0.0666667, 0.67451, 0.917647, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0.654902, 0.839216, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -62,7 +53,7 @@ script = ExtResource("1_h0w7b")
 
 [node name="Clouds" type="Sprite2D" parent="."]
 position = Vector2(994, 821)
-texture = ExtResource("2_sjm3b")
+texture = ExtResource("2_8p1j1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("3_lftms")
@@ -90,11 +81,11 @@ theme_override_constants/margin_bottom = 10
 [node name="StartButton" type="Button" parent="VBoxContainer/MarginContainer"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer2/QuitButton")
-theme_override_colors/font_color = Color(0.0666667, 0.67451, 0.917647, 1)
+theme_override_colors/font_color = Color(0, 0.654902, 0.839216, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = SubResource("FontVariation_kd0hr")
 theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxFlat_wxbea")
+theme_override_styles/normal = ExtResource("5_oocwn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_q1uvt")
 theme_override_styles/pressed = ExtResource("5_ovfmp")
 theme_override_styles/focus = ExtResource("5_ovfmp")
@@ -106,7 +97,7 @@ layout_mode = 2
 [node name="QuitButton" type="Button" parent="VBoxContainer/MarginContainer2"]
 layout_mode = 2
 focus_neighbor_bottom = NodePath("../../MarginContainer/StartButton")
-theme_override_colors/font_color = Color(0.0666667, 0.67451, 0.917647, 1)
+theme_override_colors/font_color = Color(0, 0.654902, 0.839216, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = SubResource("FontVariation_o5mlw")
 theme_override_font_sizes/font_size = 50
@@ -126,5 +117,15 @@ motion_mirroring = Vector2(1920, 0)
 texture = ExtResource("6_w4v18")
 centered = false
 
+[node name="HoverSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_mcj4u")
+volume_db = -20.0
+
+[node name="SelectSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_e4cxs")
+volume_db = -20.0
+
+[connection signal="mouse_entered" from="VBoxContainer/MarginContainer/StartButton" to="." method="_on_start_button_mouse_entered"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/MarginContainer2/QuitButton" to="." method="_on_quit_button_mouse_entered"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer2/QuitButton" to="." method="_on_quit_button_pressed"]

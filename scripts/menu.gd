@@ -12,7 +12,21 @@ func _process(delta):
 	clouds.position.y = original_y + sin(time_passed * bob_speed) * bob_amplitude
 	
 func _on_start_button_pressed() -> void:
+	$SelectSound.play()
+	set_process_input(false)
+	await get_tree().create_timer(0.3).timeout
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 func _on_quit_button_pressed() -> void:
+	$SelectSound.play()
+	set_process_input(false)
+	await get_tree().create_timer(0.3).timeout
 	get_tree().quit()
+
+
+func _on_start_button_mouse_entered() -> void:
+	$HoverSound.play()
+
+
+func _on_quit_button_mouse_entered() -> void:
+	$HoverSound.play()

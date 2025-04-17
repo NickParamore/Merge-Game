@@ -19,9 +19,25 @@ func resume():
 	hide()
 
 func _on_menu_button_pressed() -> void:
+	$SelectSound.play()
+	set_process_input(false)
+	await get_tree().create_timer(0.3).timeout
+	GameState.is_game_over = false
 	resume()
 	get_tree().change_scene_to_file("res://scenes/menu.tscn")
 
 func _on_restart_button_pressed() -> void:
+	$SelectSound.play()
+	set_process_input(false)
+	await get_tree().create_timer(0.3).timeout
+	GameState.is_game_over = false
 	resume()
-	get_tree().change_scene_to_file("res://scenes/main.tscn")  # Adjust the path if your main scene is elsewhere
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
+
+
+func _on_restart_button_mouse_entered() -> void:
+	$HoverSound.play()
+
+
+func _on_menu_button_mouse_entered() -> void:
+	$HoverSound.play()

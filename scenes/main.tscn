@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cfj577ua1or27"]
+[gd_scene load_steps=22 format=3 uid="uid://cfj577ua1or27"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_xlh7y"]
 [ext_resource type="Texture2D" uid="uid://s7t3ukxyb2jy" path="res://assets/test.png" id="2_1u6j2"]
@@ -8,8 +8,10 @@
 [ext_resource type="FontFile" uid="uid://bgs6qic5nx52k" path="res://assets/Fredoka-VariableFont_wdth,wght.ttf" id="4_2kihc"]
 [ext_resource type="Script" path="res://scripts/Area2D.gd" id="4_2ld34"]
 [ext_resource type="Texture2D" uid="uid://16je28p7qc8a" path="res://assets/clouds.png" id="4_44mfc"]
-[ext_resource type="AudioStream" uid="uid://duqcss3dyrb0q" path="res://assets/bubbleDrop.wav" id="5_hvc6m"]
 [ext_resource type="AudioStream" uid="uid://bsxcxe3q2ubkc" path="res://assets/bubbleMerge.mp3" id="6_vtbbr"]
+[ext_resource type="Texture2D" uid="uid://bvf3tkfmpdyr3" path="res://assets/dashed-line.png" id="10_7luoj"]
+[ext_resource type="AudioStream" uid="uid://b0iac32cg8vrc" path="res://assets/Drop.ogg" id="11_rt1xh"]
+[ext_resource type="AudioStream" uid="uid://bcx5g1v06jam" path="res://assets/GameOver.mp3" id="13_oyyic"]
 [ext_resource type="PackedScene" uid="uid://btev61t2t1jg1" path="res://scenes/game_over.tscn" id="22_wi1j6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ca67"]
@@ -27,7 +29,7 @@ variation_opentype = {
 [sub_resource type="LabelSettings" id="LabelSettings_iawhg"]
 font = SubResource("FontVariation_ctnhr")
 font_size = 35
-font_color = Color(0.0666667, 0.67451, 0.917647, 1)
+font_color = Color(0, 0.654902, 0.839216, 1)
 
 [sub_resource type="FontVariation" id="FontVariation_vov42"]
 base_font = ExtResource("4_2kihc")
@@ -38,12 +40,10 @@ variation_opentype = {
 [sub_resource type="LabelSettings" id="LabelSettings_xeyjn"]
 font = SubResource("FontVariation_vov42")
 font_size = 35
-font_color = Color(0.0666667, 0.67451, 0.917647, 1)
+font_color = Color(0, 0.654902, 0.839216, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i44ma"]
 size = Vector2(603, 18)
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_5cp4r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v5vui"]
 size = Vector2(540, 1081)
@@ -96,7 +96,7 @@ position = Vector2(776, 122)
 shape = SubResource("RectangleShape2D_1ca67")
 
 [node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(317, 707)
+position = Vector2(323, 699)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 position = Vector2(645, 246)
@@ -130,18 +130,15 @@ position = Vector2(17, 13)
 shape = SubResource("RectangleShape2D_i44ma")
 
 [node name="BlinkLine" type="Sprite2D" parent="Area2D"]
-position = Vector2(15, 14)
-scale = Vector2(540, 18)
-texture = SubResource("CanvasTexture_5cp4r")
+position = Vector2(15, 19)
+scale = Vector2(0.54, 0.4875)
+texture = ExtResource("10_7luoj")
 
 [node name="ClickableArea" type="Area2D" parent="."]
 position = Vector2(960, 540)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickableArea"]
 shape = SubResource("RectangleShape2D_v5vui")
-
-[node name="Node2D" type="Node2D" parent="."]
-position = Vector2(960, 540)
 
 [node name="NextBall" type="Node2D" parent="."]
 position = Vector2(175, 637)
@@ -158,9 +155,13 @@ label_settings = SubResource("LabelSettings_iawhg")
 position = Vector2(-18, 313)
 
 [node name="ballDrop" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_hvc6m")
+stream = ExtResource("11_rt1xh")
 volume_db = -24.372
 
 [node name="ballMerge" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_vtbbr")
 volume_db = -32.996
+
+[node name="GameOver" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("13_oyyic")

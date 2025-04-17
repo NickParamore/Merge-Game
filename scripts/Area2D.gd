@@ -2,6 +2,7 @@ extends Area2D
 
 var balls_in_area = {}  # Store each ball and its timers
 @onready var blink_line = $BlinkLine  # Sprite2D that blinks
+@onready var GameOver = $"../GameOver"
 
 func _ready():
 	blink_line.visible = false  # Initially hidden
@@ -30,7 +31,7 @@ func _start_warning_timer(body):
 
 	# Start warning timer (5 seconds)
 	var warning_timer = Timer.new()
-	warning_timer.wait_time = 1.0
+	warning_timer.wait_time = 5.0
 	warning_timer.one_shot = true
 	add_child(warning_timer)
 	warning_timer.connect("timeout", Callable(self, "_on_timeout").bind(body))
@@ -66,8 +67,9 @@ func _on_body_exited(body):
 
 func _on_timeout(ball):
 	if balls_in_area.has(ball):
+		GameOver.play()
 		print("❌ Game Over! Ball stayed too long.")
-
+		GameState.is_game_over = true
 		# Get references
 		var main_node = get_node("/root/Node2D")  # Adjust this path if your Main is named differently
 		var game_over_screen = get_node("/root/Node2D/CanvasLayer2/GameOver")
